@@ -1,2 +1,2 @@
-# angular.number-input
-A number-only input element directive for AngularJS.
+# angular.number-input:gh-pages
+Demo page for Number Input for AngularJS.

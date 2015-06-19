@@ -1,0 +1,21 @@
+<div class="input-number-container">
+	<input type="text" 
+		   class="pull-left form-control input-number text-left"
+		   ng-model="model"
+		   ng-change="numberInput.onChange()"
+		   ng-keydown="numberInput.onKeyPress($event)"></input>
+
+	<div class="pull-right input-number-btns-container">
+		<!-- Up -->
+		<button type="button" class="btn btn-default pull-left input-number-up" ng-click="numberInput.inc()">
+			<span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>
+		</button>
+
+		<!-- Down -->
+		<button type="button" class="btn btn-default pull-right input-number-down" ng-click="numberInput.dec()">
+			<span class="glyphicon glyphicon-menu-down input-number-down" aria-hidden="true"></span>
+		</button>
+	</div>
+
+	<small ng-show="!hideHint" class="input-number-hint">{{numberInput.hint()}}</small>
+</div>

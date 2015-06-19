@@ -1,0 +1,37 @@
+.input-number-container {
+	background-color: red;
+	height: 34px;
+}
+
+.input-number {
+	width: calc(100% - 68px);
+}
+
+.input-number-btns-container {
+	width: 68px;
+	height: 34px;
+}
+
+.input-number-btns-container button {
+	width: 34px;
+	height: 100%;
+	border-left: none;
+}
+
+.input-number-btns-container button span {
+	display: block;
+}
+
+.input-number-up {
+	
+}
+
+.input-number-down span {
+	margin-top: -8px;
+}
+
+.input-number-hint {
+	font-size: 0.8em;
+	opacity: 0.5;
+}
+

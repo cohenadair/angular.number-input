@@ -24,20 +24,16 @@
 
 .input-number-btns-container button:focus {
 	outline: 0;
-}
-
-.input-number-btns-container button:focus {
-	outline: 0;
 	background-color: white;
 	border-color: #ccc;
 }
 
-.input-number-up {
+.input-number-plus {
 	border-radius: 0px;
 	background: white;
 }
 
-.input-number-down {
+.input-number-minus {
 	border-top-left-radius: 0px;
 	border-bottom-left-radius: 0px;
 	background: white;

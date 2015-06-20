@@ -6,13 +6,15 @@
 		   ng-keydown="numberInput.onKeyPress($event)"></input>
 
 	<div class="pull-right input-number-btns-container">
-		<!-- Up -->
-		<button type="button" class="btn btn-default pull-left input-number-up" ng-click="numberInput.inc()">
+		<button type="button" 
+				class="btn btn-default pull-left input-number-plus" 
+				ng-click="numberInput.inc()">
 			<strong>+</strong>
 		</button>
 
-		<!-- Down -->
-		<button type="button" class="btn btn-default pull-right input-number-down" ng-click="numberInput.dec()">
+		<button type="button" 
+				class="btn btn-default pull-right input-number-minus" 
+				ng-click="numberInput.dec()">
 			<strong>-</strong>
 		</button>
 	</div>

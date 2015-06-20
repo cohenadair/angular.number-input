@@ -1,0 +1,50 @@
+.input-number-container {
+	height: 34px;
+}
+
+.input-number {
+	width: calc(100% - 68px);
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	box-shadow: none;
+}
+
+.input-number-btns-container {
+	width: 68px;
+	height: 34px;
+}
+
+.input-number-btns-container button {
+	width: 34px;
+	height: 34px;
+	border-left: none;
+	box-shadow: none;
+	line-height: 5px;
+}
+
+.input-number-btns-container button:focus {
+	outline: 0;
+}
+
+.input-number-btns-container button:focus {
+	outline: 0;
+	background-color: white;
+	border-color: #ccc;
+}
+
+.input-number-up {
+	border-radius: 0px;
+	background: white;
+}
+
+.input-number-down {
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	background: white;
+}
+
+.input-number-hint {
+	font-size: 0.8em;
+	opacity: 0.5;
+}
+

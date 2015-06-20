@@ -1,7 +1,38 @@
-<html>
+<html ng-app="number-input-demo">
     <head>
+		<!-- Bootstrap 3.3.5 -->
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.min.css">
+
+		<!-- Number Input -->
+		<link rel="stylesheet" href="src/number-input.css">
+
+		<link rel="stylesheet" href="index.css">
     </head>
-    <body>
-        <h1>Number Input for AngularJS</h1>
+    <body ng-controller="AppController as appCtrl">
+        <h1 class="text-center">Number Input for AngularJS</h1>
+
+        <div class="row">
+        	<div class="col-md-6">
+        		<number-input ng-model="model"></number-input>
+        	</div>
+        	<div class="col-md-6">
+        		<number-input ng-model="model"></number-input>
+        	</div>
+        </div>
+
+        <!-- jQuery 1.11.3 -->
+        <script src="lib/jquery/jquery.min.js"></script>
+
+        <!-- Bootstrap 3.3.5 -->
+		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
+		<!-- AngularJS 1.4.1 -->
+		<script src="lib/angular/angular.min.js"></script>
+
+		<!-- Number Input -->
+		<script src="src/number-input.js"></script>
+
+		<script src="app.js"></script>
     </body>
 </html>

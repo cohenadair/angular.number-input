@@ -8,7 +8,7 @@
         - hint: small string under input element; default depends on min/max
         - hideHint: default false
         - disableDecimals: default false
-        - decimalPlaces: number of decimal places to round to; default to decimal places in step
+        - decimalPlaces: number of decimal places to round to; default to decimal places in step or 2
  */
 
 (function() {
@@ -41,6 +41,11 @@
                 var HINT_MIN = "Greater than or equal to" + $scope.min;
                 var HINT_BOTH = $scope.min + "-" + $scope.max;
 
+                var KEY_ZERO = 47;
+                var KEY_NINE = 57;
+                var KEY_PERIOD = 190;
+                var KEY_DASH = 189;
+
                 // increment model by step
                 this.inc = function() {
                     if (isMaxed() || prevKey != null)
@@ -60,12 +65,12 @@
                 };
 
                 this.onKeyPress = function(e) {
-                    if (validKey(e.key))
-                        prevKey = e.key;
+                    if (validKey(e.keyCode))
+                        prevKey = e.keyCode;
                 };
 
                 this.onChange = function() {
-                    if (prevKey == "." || prevKey == "-")
+                    if (prevKey == KEY_PERIOD || prevKey == KEY_DASH)
                         return;
                     validate();
                 };
@@ -111,8 +116,9 @@
                 };
 
                 var validKey = function(key) {
-                    return !(key == "-" && $scope.min >= 0) &&      // trying to input negaitive if minimum is >= 0
-                           (key == "." && !$scope.disableDecimal);  // trying to input decimal when they are disabled
+                    return (key >= KEY_ZERO && key <= KEY_NINE) ||
+                           (key == KEY_DASH && ($scope.min == null || $scope.min < 0)) ||
+                           (key == KEY_PERIOD && !$scope.disableDecimal);
                 }
 
                 // validates the current model
@@ -131,7 +137,7 @@
                     var str = $scope.step.toString();
                     if (str.indexOf(".") >= 0)
                         return str.split(".")[1].length;
-                    return 0;
+                    return 2;
                 };
 
                 // defaults

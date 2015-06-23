@@ -1,20 +1,26 @@
-.input-number-container {
-	height: 34px;
+/**
+ * number-input.css
+ * author: Cohen Adair
+ * license: GNU GPL v2
+ */
+
+.number-input-container {
+	height: 50px;
 }
 
-.input-number {
+.number-input {
 	width: calc(100% - 68px);
 	border-top-right-radius: 0px;
 	border-bottom-right-radius: 0px;
 	box-shadow: none;
 }
 
-.input-number-btns-container {
+.number-input-btns-container {
 	width: 68px;
 	height: 34px;
 }
 
-.input-number-btns-container button {
+.number-input-btns-container button {
 	width: 34px;
 	height: 34px;
 	border-left: none;
@@ -22,24 +28,24 @@
 	line-height: 5px;
 }
 
-.input-number-btns-container button:focus {
+.number-input-btns-container button:focus {
 	outline: 0;
 	background-color: white;
 	border-color: #ccc;
 }
 
-.input-number-plus {
+.number-input-plus {
 	border-radius: 0px;
 	background: white;
 }
 
-.input-number-minus {
+.number-input-minus {
 	border-top-left-radius: 0px;
 	border-bottom-left-radius: 0px;
 	background: white;
 }
 
-.input-number-hint {
+.number-input-hint {
 	font-size: 0.8em;
 	opacity: 0.5;
 }

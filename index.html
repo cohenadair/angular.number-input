@@ -10,18 +10,21 @@
 		<link rel="stylesheet" href="index.css">
     </head>
     <body ng-controller="AppController as appCtrl">
-    	<div class="page-header">
-		  	<h1 class="text-center">Number Input for AngularJS</h1>
+    	<div class="page-header text-center">
+		  	<h1>Number Input for AngularJS</h1>
+            <h5>
+                <a href="">Download number-input.min.js</a> or <a href="https://github.com/cohenadair/angular.number-input">View on GitHub</a>
+            </h5>
 		</div>
 
-        <div class="row">
-        	<div class="col-md-6">
-        		<number-input ng-model="model"></number-input>
-        	</div>
-        	<div class="col-md-6">
-        		<number-input ng-model="model"></number-input>
-        	</div>
-        </div>
+        <div class="row" ng-repeat="row in appCtrl.inputsConfig">
+            <div ng-repeat="input in row">
+                <div class="col-md-6">
+                    <label>{{input.label}}:</label>
+                    <number-input ng-model="model" options="input.options"></number-input>
+                </div>
+            </div>
+        </div>        
 
         <!-- jQuery 1.11.3 -->
         <script src="lib/jquery/jquery.min.js"></script>

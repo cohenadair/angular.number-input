@@ -1,24 +1,17 @@
-/*
-    Options:
-        - ngModel
-        - start: the starting value; default 0
-        - min: the minimum value; default no limit
-        - max: the maximum value; default no limit
-        - step: amount the arrows increase/decrease by default 1
-        - hint: small string under input element; default depends on min/max
-        - hideHint: default false
-        - disableDecimals: default false
-        - decimalPlaces: number of decimal places to round to; default to decimal places in step
+/**
+ * number-input.js
+ * author: Cohen Adair
+ * license: GNU GPL v2
  */
 
 (function() {
-    var app = angular.module("lh.number-input", []);
+    var app = angular.module("number-input", []);
 
     app.directive("numberInput", function() {
         return {
             restrict: 'E',
            
-            templateUrl: '../utils/directives/number-input/number-input.html',
+            templateUrl: 'src/number-input.html',
             
             scope: {
                 model: "=ngModel",
@@ -29,7 +22,8 @@
                 hint: "@hint",
                 hideHint: "=hideHint",
                 disableDecimal: "=disableDecimal",
-                decimalPlaces: "=decimalPlaces"
+                decimalPlaces: "=decimalPlaces",
+                options: "=options"
             },
 
             controller: ["$scope", function($scope) {
@@ -37,9 +31,11 @@
                 // used to validate key presses
                 var prevKey = null;
 
-                var HINT_MAX = "Less than or equal to " + $scope.max;
-                var HINT_MIN = "Greater than or equal to" + $scope.min;
-                var HINT_BOTH = $scope.min + "-" + $scope.max;
+                var KEY_ZERO = 48;
+                var KEY_NINE = 57;
+                var KEY_PERIOD = 190;
+                var KEY_DASH = 189;
+                var KEY_SPACE = 32;
 
                 // increment model by step
                 this.inc = function() {
@@ -60,17 +56,25 @@
                 };
 
                 this.onKeyPress = function(e) {
-                    if (validKey(e.key))
-                        prevKey = e.key;
+                    if (e.keyCode == KEY_SPACE)
+                        validate();
+
+                    console.log("Code: " + e.keyCode);
+                    if (validKey(e.keyCode))
+                        prevKey = e.keyCode;
                 };
 
                 this.onChange = function() {
-                    if (prevKey == "." || prevKey == "-")
-                        return;
+                    console.log("Prev: " + prevKey);
+                    // skip validation for certain keys
+                    if (prevKey == KEY_PERIOD || 
+                        prevKey == KEY_DASH || 
+                        prevKey == KEY_ZERO) return;
+                    
                     validate();
                 };
 
-                this.hint = function() {
+                var getHint = function() {
                     // hide hint if no max/min were given
                     if ((!isMaxValid() && !isMinValid())) 
                         return $scope.hideHint = true;
@@ -78,18 +82,21 @@
                     // user specified hint
                     if ($scope.hint) 
                         return $scope.hint;
+
+                    if ($scope.options.hint)
+                        return $scope.options.hint;
                     
                     // hint if only a maximum was specified
                     if (isMaxValid() && !isMinValid()) 
-                        return HINT_MAX;
+                        return "Less than or equal to " + $scope.max;
                     
                     // hint if only a minimum was specified
                     if (isMinValid() && !isMaxValid()) 
-                        return HINT_MIN;
+                        return "Greater than or equal to " + $scope.min;
                     
                     // hint if both a maximum and minimum was specified
                     if (isMaxValid() && isMinValid()) 
-                        return HINT_BOTH;
+                        return $scope.min + " to " + $scope.max;
                 };
 
                 // returns true if the model is >= the maximum
@@ -111,9 +118,10 @@
                 };
 
                 var validKey = function(key) {
-                    return !(key == "-" && $scope.min >= 0) &&      // trying to input negaitive if minimum is >= 0
-                           (key == "." && !$scope.disableDecimal);  // trying to input decimal when they are disabled
-                }
+                    return (key >= KEY_ZERO && key <= KEY_NINE) ||
+                           (key == KEY_DASH && ($scope.min == null || $scope.min < 0)) ||
+                           (key == KEY_PERIOD && !$scope.disableDecimal && !($scope.decimalPlaces == 0));
+                };
 
                 // validates the current model
                 // if it is higher/lower than max/min, will reset to max/min
@@ -134,12 +142,18 @@
                     return 0;
                 };
 
+                //if (!$scope.options) $scope.options = {};
+
                 // defaults
-                $scope.step = $scope.step || 1;  
-                $scope.hideHint = $scope.hideHint || false;
-                $scope.disableDecimal = $scope.disableDecimal || false;
-                $scope.decimalPlaces = $scope.decimalPlaces || getDecimalPlaces();
-                $scope.model = $scope.model || $scope.start || 0;
+                $scope.min = $scope.min || $scope.options.min;
+                $scope.max = $scope.max || $scope.options.max;
+                $scope.step = $scope.step || $scope.options.step || 1;
+                $scope.hint = this.hint = getHint();
+                $scope.hideHint = $scope.hideHint || $scope.options.hideHint || false;
+                $scope.disableDecimal = $scope.disableDecimal || $scope.options.disableDecimal || false;
+                $scope.decimalPlaces = $scope.decimalPlaces || $scope.options.decimalPlaces || getDecimalPlaces();
+                $scope.start = $scope.start || $scope.options.start;
+                $scope.model = $scope.start || $scope.model || 0;
             }],
 
             controllerAs: "numberInput"

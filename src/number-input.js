@@ -142,7 +142,7 @@
                     return 0;
                 };
 
-                //if (!$scope.options) $scope.options = {};
+                if (!$scope.options) $scope.options = {};
 
                 // defaults
                 $scope.min = $scope.min || $scope.options.min;

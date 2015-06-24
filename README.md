@@ -14,16 +14,7 @@ A number-only input element directive for AngularJS.
 
 #### Example
 ```HTML
-<number-input 
-  ng-model="model"
-  max="24"
-  min="0"
-  step="1"
-  start="10"
-  hint="0 to 24 hours"
-  hideHint="false"
-  disableDecimal="true"
-  decimalPlaces="0">
+<number-input ng-model="model" max="24" min="0" step="1" start="10" hint="0 to 24 hours" hideHint="false" disableDecimal="true" decimalPlaces="0">
 </number-input>
 ```
 

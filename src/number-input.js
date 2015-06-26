@@ -59,17 +59,15 @@
                     if (e.keyCode == KEY_SPACE)
                         validate();
 
-                    console.log("Code: " + e.keyCode);
                     if (validKey(e.keyCode))
                         prevKey = e.keyCode;
                 };
 
                 this.onChange = function() {
-                    console.log("Prev: " + prevKey);
                     // skip validation for certain keys
                     if (prevKey == KEY_PERIOD || 
                         prevKey == KEY_DASH || 
-                        prevKey == KEY_ZERO) return;
+                        (prevKey == KEY_ZERO && numberHasDecimal($scope.model))) return;
                     
                     validate();
                 };
@@ -101,25 +99,33 @@
 
                 // returns true if the model is >= the maximum
                 var isMaxed = function() {
-                    return ($scope.max != null) && $scope.model >= $scope.max;
+                    return isMaxValid() && $scope.model >= $scope.max;
                 };
 
                 // returns true if the model is <= the minimum
                 var isMinnd = function() {
-                    return ($scope.min != null) && $scope.model <= $scope.min;
+                    return isMinValid() && $scope.model <= $scope.min;
                 };
 
                 var isMaxValid = function() {
-                    return ($scope.max != null);
+                    return !isNull($scope.max);
                 };
 
                 var isMinValid = function() {
-                    return ($scope.min != null);
+                    return !isNull($scope.min);
+                };
+
+                var isNull = function(num) {
+                    return (num === null) || (num === undefined) || (num === NaN);
+                };
+
+                var numberHasDecimal = function(num) {
+                    return num.toString().indexOf(".") > -1;
                 };
 
                 var validKey = function(key) {
                     return (key >= KEY_ZERO && key <= KEY_NINE) ||
-                           (key == KEY_DASH && ($scope.min == null || $scope.min < 0)) ||
+                           (key == KEY_DASH && (!isMinValid() || $scope.min < 0)) ||
                            (key == KEY_PERIOD && !$scope.disableDecimal && !($scope.decimalPlaces == 0));
                 };
 
@@ -145,14 +151,18 @@
                 if (!$scope.options) $scope.options = {};
 
                 // defaults
-                $scope.min = $scope.min || $scope.options.min;
-                $scope.max = $scope.max || $scope.options.max;
+                if (isNull($scope.min)) $scope.min = $scope.options.min;
+                if (isNull($scope.max)) $scope.max = $scope.options.max;
+
+                // may still end up as null, which is okay
+                if (isNull($scope.start)) $scope.start = $scope.options.start;
+                if (isNull($scope.start)) $scope.start = $scope.min;
+
                 $scope.step = $scope.step || $scope.options.step || 1;
                 $scope.hint = this.hint = getHint();
                 $scope.hideHint = $scope.hideHint || $scope.options.hideHint || false;
                 $scope.disableDecimal = $scope.disableDecimal || $scope.options.disableDecimal || false;
                 $scope.decimalPlaces = $scope.decimalPlaces || $scope.options.decimalPlaces || getDecimalPlaces();
-                $scope.start = $scope.start || $scope.options.start || $scope.min;
                 $scope.model = $scope.start || $scope.model || 0;
             }],
 

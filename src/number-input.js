@@ -15,15 +15,15 @@
             
             scope: {
                 model: "=ngModel",
-                start: "=start",
-                min: "=min",
-                max: "=max",
-                step: "=step",
-                hint: "@hint",
-                hideHint: "=hideHint",
-                disableDecimal: "=disableDecimal",
-                decimalPlaces: "=decimalPlaces",
-                options: "=options"
+                start: "=?start",
+                min: "=?min",
+                max: "=?max",
+                step: "=?step",
+                hint: "@?hint",
+                hideHint: "=?hideHint",
+                disableDecimal: "=?disableDecimal",
+                decimalPlaces: "=?decimalPlaces",
+                options: "=?options"
             },
 
             controller: ["$scope", function($scope) {
@@ -152,7 +152,7 @@
                 $scope.hideHint = $scope.hideHint || $scope.options.hideHint || false;
                 $scope.disableDecimal = $scope.disableDecimal || $scope.options.disableDecimal || false;
                 $scope.decimalPlaces = $scope.decimalPlaces || $scope.options.decimalPlaces || getDecimalPlaces();
-                $scope.start = $scope.start || $scope.options.start;
+                $scope.start = $scope.start || $scope.options.start || $scope.min;
                 $scope.model = $scope.start || $scope.model || 0;
             }],
 

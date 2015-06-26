@@ -53,10 +53,11 @@ opts = {
 Feel free to send a pull request if you can improve something, or create an issue if you have any questions or problems.
 
 #### License
-Licensed under GNU GPL v2.
+Licensed under [GNU GPL v2].
 
 Enjoy!
 
 [DEMO]:http://cohenadair.github.io/angular.number-input/
 [Boostrap]:http://getbootstrap.com/
 [AngularJS]:https://angularjs.org/
+[GNU GPL v2]:https://raw.githubusercontent.com/cohenadair/angular.number-input/master/LICENSE.txt

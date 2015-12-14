@@ -49,16 +49,18 @@ opts = {
 | decimalPlaces  | Number        | # of decimals in step     | No       | Both             | Number of decimal places shown
 | options        | Object        | Empty                     | No       | Both             | Options can be used instead of element attributes (attributes have priority)
 
+#### Testing Locally
+To test locally without using the minified version, have `npm` installed and use the following commands:
+```
+npm install http-server -g
+http-server Workplace/angular.number-input/
+```
+
 #### Contributing
 Feel free to send a pull request if you can improve something, or create an issue if you have any questions or problems.
 
 #### License
 Licensed under [GNU GPL v2].
-
-#### Testing Locally
-To test locally without using the minified version, have `npm` installed and use the following commands:
-> npm install http-server -g
-> http-server Workplace/angular.number-input/
 
 
 Enjoy!

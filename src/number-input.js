@@ -62,8 +62,11 @@
                     if (validKey(e.keyCode))
                         prevKey = e.keyCode;
                 };
-
+                
                 this.onChange = function() {
+                    if (!isModelMaxLength())
+                        return;
+
                     // skip validation for certain keys
                     if (prevKey == KEY_PERIOD || 
                         prevKey == KEY_DASH || 
@@ -71,6 +74,34 @@
                     
                     validate();
                 };
+
+                this.onBlur = function() {
+                    validate();
+                    if (!$scope.model)
+                        $scope.model = $scope.start || 0;
+                };
+
+                var isModelMaxLength = function() {
+                    if (!isMaxValid() || !isMinValid())
+                        return true;
+
+                    // the length of the input only needs to be checked if both the max AND min are
+                    // 1. positive
+                    // 2. negative
+                    if (!(($scope.max >= 0 && $scope.min >= 0) || ($scope.max <= 0 && $scope.min <= 0)))
+                        return true;
+
+                    var maxStrLen = $scope.max.toString().length;
+                    var minStrLen = $scope.min.toString().length;
+                    var len = (maxStrLen > minStrLen) ? maxStrLen : minStrLen;
+
+                    var modelStr = $scope.model.toString();
+
+                    if (modelStr.length > len)
+                        $scope.model = parseInt(modelStr.substring(0, modelStr.length - 1));
+
+                    return (len == $scope.model.toString().length);
+                }
 
                 var getHint = function() {
                     // hide hint if no max/min were given
@@ -123,9 +154,13 @@
                     return num.toString().indexOf(".") > -1;
                 };
 
+                var canGoNegative = function() {
+                    return (!isMinValid() || $scope.min < 0);
+                };
+
                 var validKey = function(key) {
                     return (key >= KEY_ZERO && key <= KEY_NINE) ||
-                           (key == KEY_DASH && (!isMinValid() || $scope.min < 0)) ||
+                           (key == KEY_DASH && canGoNegative()) ||
                            (key == KEY_PERIOD && !$scope.disableDecimal && !($scope.decimalPlaces == 0));
                 };
 

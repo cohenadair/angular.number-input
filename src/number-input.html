@@ -8,7 +8,8 @@
 		   class="pull-left form-control number-input text-left"
 		   ng-model="model"
 		   ng-change="numberInput.onChange()"
-		   ng-keydown="numberInput.onKeyPress($event)"></input>
+		   ng-keydown="numberInput.onKeyPress($event)"
+		   ng-blur="numberInput.onBlur()"></input>
 
 	<div class="pull-right number-input-btns-container">
 		<button type="button" 

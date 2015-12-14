@@ -55,6 +55,12 @@ Feel free to send a pull request if you can improve something, or create an issu
 #### License
 Licensed under [GNU GPL v2].
 
+#### Testing Locally
+To test locally without using the minified version, have `npm` installed and use the following commands:
+> npm install http-server -g
+> http-server Workplace/angular.number-input/
+
+
 Enjoy!
 
 [DEMO]:http://cohenadair.github.io/angular.number-input/

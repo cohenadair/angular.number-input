@@ -56,7 +56,27 @@
                               min: 0
                          }
                     }
-               ]
+               ],
+               [
+                    {
+                         label: "From 6 to 19",
+                         options: {
+                              start: 6,
+                              min: 6,
+                              max: 19,
+                              hideHint: true
+                         }
+                    },
+                    {
+                         label: "From -6 to -19",
+                         options: {
+                              start: -19,
+                              min: -19,
+                              max: -6,
+                              hideHint: true
+                         }
+                    }
+               ],
           ];
      });
 })();

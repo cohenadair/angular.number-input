@@ -1,0 +1,19 @@
+* {
+	margin: auto;
+	max-width: 1000px;
+}
+
+.page-header {
+	padding-bottom: 30px;
+}
+
+.row {
+	margin: 0px;
+	margin-bottom: 15px;
+}
+
+.enjoy {
+	opacity: 0.5;
+	color: gray;
+	margin-top: 50px;
+}

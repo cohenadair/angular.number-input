@@ -1,0 +1,29 @@
+<!--
+	number-input.html
+	author: Cohen Adair
+	license: GNU GPL v2
+-->
+<div class="number-input-container">
+	<input type="text" 
+		   class="pull-left form-control number-input text-left"
+		   ng-model="model"
+		   ng-change="numberInput.onChange()"
+		   ng-keydown="numberInput.onKeyPress($event)"
+		   ng-blur="numberInput.onBlur()"></input>
+
+	<div class="pull-right number-input-btns-container">
+		<button type="button" 
+				class="btn btn-default pull-left number-input-plus" 
+				ng-click="numberInput.inc()">
+			<strong>+</strong>
+		</button>
+
+		<button type="button" 
+				class="btn btn-default pull-right number-input-minus" 
+				ng-click="numberInput.dec()">
+			<strong>-</strong>
+		</button>
+	</div>
+
+	<small ng-show="!hideHint" class="number-input-hint">{{numberInput.hint}}</small>
+</div>

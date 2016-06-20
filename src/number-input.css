@@ -1,0 +1,52 @@
+/**
+ * number-input.css
+ * author: Cohen Adair
+ * license: GNU GPL v2
+ */
+
+.number-input-container {
+	height: 50px;
+}
+
+.number-input {
+	width: calc(100% - 68px);
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	box-shadow: none;
+}
+
+.number-input-btns-container {
+	width: 68px;
+	height: 34px;
+}
+
+.number-input-btns-container button {
+	width: 34px;
+	height: 34px;
+	border-left: none;
+	box-shadow: none;
+	line-height: 5px;
+}
+
+.number-input-btns-container button:focus {
+	outline: 0;
+	background-color: white;
+	border-color: #ccc;
+}
+
+.number-input-plus {
+	border-radius: 0px;
+	background: white;
+}
+
+.number-input-minus {
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	background: white;
+}
+
+.number-input-hint {
+	font-size: 0.8em;
+	opacity: 0.5;
+}
+

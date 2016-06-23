@@ -15,6 +15,7 @@
             
             scope: {
                 model: "=ngModel",
+                change: "&ngChange",
                 start: "=?start",
                 min: "=?min",
                 max: "=?max",
@@ -43,6 +44,7 @@
                         return;
 
                     $scope.model += $scope.step;
+                    $scope.change();
                     validate();
                 };
 
@@ -52,6 +54,7 @@
                         return;
 
                     $scope.model -= $scope.step;
+                    $scope.change();
                     validate();
                 };
 
@@ -91,17 +94,29 @@
                     if (!(($scope.max >= 0 && $scope.min >= 0) || ($scope.max <= 0 && $scope.min <= 0)))
                         return true;
 
-                    var maxStrLen = $scope.max.toString().length;
-                    var minStrLen = $scope.min.toString().length;
+                    // make sure decimal places are accounted for in model length
+                    var decimalLen = $scope.decimalPlaces + ($scope.decimalPlaces > 0 ? 1 : 0);
+
+                    var maxStrLen = $scope.max.toString().length + decimalLen;
+                    var minStrLen = $scope.min.toString().length + decimalLen;
                     var len = (maxStrLen > minStrLen) ? maxStrLen : minStrLen;
 
                     var modelStr = $scope.model.toString();
+                    var numberOfDecimals = getDecimalPlaces(modelStr);
 
-                    if (modelStr.length > len)
-                        $scope.model = parseInt(modelStr.substring(0, modelStr.length - 1));
+                    // max string length
+                    // 1. actual string length
+                    // 2. max decimal places
+                    if (modelStr.length > len || numberOfDecimals > $scope.decimalPlaces) {
+                        $scope.model = parseFloatForModel(modelStr.substring(0, modelStr.length - 1));
+                    }
 
-                    return (len == $scope.model.toString().length);
+                    return (len == $scope.model.toString().length) || numberOfDecimals == $scope.decimalPlaces;
                 }
+
+                var isModelMaxDecimalPlaces = function() {
+                    return getDecimalPlaces($scope.model.toString()) == $scope.decimalPlaces;
+                };
 
                 var getHint = function() {
                     // hide hint if no max/min were given
@@ -164,11 +179,20 @@
                            (key == KEY_PERIOD && !$scope.disableDecimal && !($scope.decimalPlaces == 0));
                 };
 
+                var parseFloatForModel = function(string) {
+                    return +parseFloat(string).toFixed($scope.decimalPlaces);
+                };
+
                 // validates the current model
                 // if it is higher/lower than max/min, will reset to max/min
                 var validate = function() {
-                    $scope.model = +parseFloat($scope.model).toFixed($scope.decimalPlaces);
+                    var oldModel = $scope.model;
+                    $scope.model = parseFloatForModel($scope.model);
 
+                    if ($scope.model != oldModel) {
+                        $scope.change();
+                    }
+                    
                     if (isMaxed()) $scope.model = $scope.max;
                     if (isMinnd()) $scope.model = $scope.min;
 
@@ -176,8 +200,7 @@
                 };
 
                 // returns the number of decimal places in $scope.step
-                var getDecimalPlaces = function() {
-                    var str = $scope.step.toString();
+                var getDecimalPlaces = function(str) {
                     if (str.indexOf(".") >= 0)
                         return str.split(".")[1].length;
                     return 0;
@@ -197,7 +220,7 @@
                 $scope.hint = this.hint = getHint();
                 $scope.hideHint = $scope.hideHint || $scope.options.hideHint || false;
                 $scope.disableDecimal = $scope.disableDecimal || $scope.options.disableDecimal || false;
-                $scope.decimalPlaces = $scope.decimalPlaces || $scope.options.decimalPlaces || getDecimalPlaces();
+                $scope.decimalPlaces = $scope.decimalPlaces || $scope.options.decimalPlaces || getDecimalPlaces($scope.step.toString());
                 $scope.model = $scope.start || $scope.model || 0;
             }],
 

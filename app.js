@@ -16,6 +16,9 @@
                               step: 0.25,
                               hint: "0 to 24 hours",
                               decimalPlaces: 2
+                         },
+                         onChange: function() {
+                              console.log("onChange called");
                          }
                     }
                ],

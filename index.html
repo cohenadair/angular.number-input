@@ -21,7 +21,7 @@
             <div ng-repeat="input in row">
                 <div class="col-md-6">
                     <label>{{input.label}}:</label>
-                    <number-input ng-model="model" options="input.options"></number-input>
+                    <number-input ng-model="model" ng-change="input.onChange()" options="input.options"></number-input>
                 </div>
             </div>
         </div>

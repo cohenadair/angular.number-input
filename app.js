@@ -2,6 +2,12 @@
      var app = angular.module("number-input-demo", ['number-input']);
     
      app.controller("AppController", function() {
+          this.onChangeCount = 0;
+
+          this.onChange = function(model) {
+               this.onChangeCount++;
+          };
+
           this.inputsConfig = [
                [
                     {
@@ -16,9 +22,6 @@
                               step: 0.25,
                               hint: "0 to 24 hours",
                               decimalPlaces: 2
-                         },
-                         onChange: function() {
-                              console.log("onChange called");
                          }
                     }
                ],
@@ -71,10 +74,10 @@
                          }
                     },
                     {
-                         label: "From -6 to -19",
+                         label: "From -6 to -25",
                          options: {
                               start: -19,
-                              min: -19,
+                              min: -25,
                               max: -6,
                               hideHint: true
                          }

@@ -15,7 +15,7 @@
             
             scope: {
                 model: "=ngModel",
-                change: "&ngChange",
+                onChange: "&ngChange",
                 start: "=?start",
                 min: "=?min",
                 max: "=?max",
@@ -38,13 +38,17 @@
                 var KEY_DASH = 189;
                 var KEY_SPACE = 32;
 
+                // allow custom onChange functions
+                $scope.$watch("model", function() {
+                    $scope.onChange();
+                });
+
                 // increment model by step
                 this.inc = function() {
                     if (isMaxed() || prevKey != null)
                         return;
 
                     $scope.model += $scope.step;
-                    $scope.change();
                     validate();
                 };
 
@@ -54,7 +58,6 @@
                         return;
 
                     $scope.model -= $scope.step;
-                    $scope.change();
                     validate();
                 };
 
@@ -67,8 +70,9 @@
                 };
                 
                 this.onChange = function() {
-                    if (!isModelMaxLength())
+                    if (!isModelMaxLength()) {
                         return;
+                    }
 
                     // skip validation for certain keys
                     if (prevKey == KEY_PERIOD || 
@@ -78,6 +82,7 @@
                     validate();
                 };
 
+                // when the input goes out of focus
                 this.onBlur = function() {
                     validate();
                     if (!$scope.model)
@@ -99,7 +104,7 @@
 
                     var maxStrLen = $scope.max.toString().length + decimalLen;
                     var minStrLen = $scope.min.toString().length + decimalLen;
-                    var len = (maxStrLen > minStrLen) ? maxStrLen : minStrLen;
+                    var maxLen = (maxStrLen > minStrLen) ? maxStrLen : minStrLen;
 
                     var modelStr = $scope.model.toString();
                     var numberOfDecimals = getDecimalPlaces(modelStr);
@@ -107,16 +112,12 @@
                     // max string length
                     // 1. actual string length
                     // 2. max decimal places
-                    if (modelStr.length > len || numberOfDecimals > $scope.decimalPlaces) {
+                    if (modelStr.length > maxLen || numberOfDecimals > $scope.decimalPlaces) {
                         $scope.model = parseFloatForModel(modelStr.substring(0, modelStr.length - 1));
                     }
 
-                    return (len == $scope.model.toString().length) || numberOfDecimals == $scope.decimalPlaces;
+                    return (maxLen == $scope.model.toString().length) || (numberOfDecimals > 0 && numberOfDecimals == $scope.decimalPlaces);
                 }
-
-                var isModelMaxDecimalPlaces = function() {
-                    return getDecimalPlaces($scope.model.toString()) == $scope.decimalPlaces;
-                };
 
                 var getHint = function() {
                     // hide hint if no max/min were given
@@ -186,12 +187,7 @@
                 // validates the current model
                 // if it is higher/lower than max/min, will reset to max/min
                 var validate = function() {
-                    var oldModel = $scope.model;
                     $scope.model = parseFloatForModel($scope.model);
-
-                    if ($scope.model != oldModel) {
-                        $scope.change();
-                    }
                     
                     if (isMaxed()) $scope.model = $scope.max;
                     if (isMinnd()) $scope.model = $scope.min;

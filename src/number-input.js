@@ -24,6 +24,8 @@
                 hideHint: "=?hideHint",
                 disableDecimal: "=?disableDecimal",
                 decimalPlaces: "=?decimalPlaces",
+                prefix: "@?prefix",
+                postfix: "@?postfix",
                 options: "=?options"
             },
 
@@ -87,6 +89,32 @@
                     validate();
                     if (!$scope.model)
                         $scope.model = $scope.start || 0;
+                };
+
+                this.hasPrefix = function() {
+                    return !this.prefix == "";
+                };
+
+                this.hasPostfix = function() {
+                    return !this.postfix == "";
+                };
+
+                this.getWidth = function() {
+                    var w = 0;
+
+                    if (this.hasPrefix() && this.hasPostfix()) {
+                        w = $("#number-input-prefix-id").outerWidth() + 
+                            $("#number-input-postfix-id").outerWidth()
+                    } else if (this.hasPrefix()) {
+                        w = $("#number-input-prefix-id").outerWidth()
+                    } else if (this.hasPostfix()) {
+                        w = $("#number-input-postfix-id").outerWidth()
+                    }
+
+                    return {
+                        width: $("#number-input-container-id").outerWidth() - 
+                               $("#number-input-btns-container-id").outerWidth() - w
+                    };
                 };
 
                 var isModelMaxLength = function() {
@@ -218,6 +246,8 @@
                 $scope.disableDecimal = $scope.disableDecimal || $scope.options.disableDecimal || false;
                 $scope.decimalPlaces = $scope.decimalPlaces || $scope.options.decimalPlaces || getDecimalPlaces($scope.step.toString());
                 $scope.model = $scope.start || $scope.model || 0;
+                $scope.prefix = this.prefix = $scope.prefix || $scope.options.prefix || "";
+                $scope.postfix = this.postfix = $scope.postfix || $scope.options.postfix || "";
             }],
 
             controllerAs: "numberInput"

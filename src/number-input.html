@@ -3,18 +3,33 @@
 	author: Cohen Adair
 	license: GNU GPL v2
 -->
-<div class="number-input-container">
+<div class="number-input-container"
+     id="number-input-container-id">
+
+	<label ng-if="numberInput.hasPrefix()"
+		   id="number-input-prefix-id" 
+		   class="number-input-fix number-input-prefix pull-left">{{numberInput.prefix}}</label>
+
 	<input type="text" 
 		   class="pull-left form-control number-input text-left"
 		   ng-model="model"
 		   ng-change="numberInput.onChange()"
 		   ng-keydown="numberInput.onKeyPress($event)"
-		   ng-blur="numberInput.onBlur()"></input>
+		   ng-blur="numberInput.onBlur()"
+		   ng-style="numberInput.getWidth()"
+		   ng-class="{'number-input-no-postfix': !numberInput.hasPostfix()}"></input>
 
-	<div class="pull-right number-input-btns-container">
+	<label ng-if="numberInput.hasPostfix()"
+		   id="number-input-postfix-id"  
+	       class="number-input-fix number-input-postfix pull-left">{{numberInput.postfix}}</label>	   
+
+	<div class="pull-right number-input-btns-container"
+	     id="number-input-btns-container-id">
+
 		<button type="button" 
 				class="btn btn-default pull-left number-input-plus" 
-				ng-click="numberInput.inc()">
+				ng-click="numberInput.inc()"
+				ng-class="{'number-input-plus-no-postfix': !numberInput.hasPostfix()}">
 			<strong>+</strong>
 		</button>
 
@@ -25,5 +40,6 @@
 		</button>
 	</div>
 
-	<small ng-show="!hideHint" class="number-input-hint">{{numberInput.hint}}</small>
+	<small ng-show="!hideHint" 
+	       class="number-input-hint pull-left">{{numberInput.hint}}</small>
 </div>

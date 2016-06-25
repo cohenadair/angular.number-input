@@ -24,7 +24,7 @@
                 <div class="col-md-6">
                     <div class="label-container">
                         <label>{{input.label}}:</label>
-                        <div class="model-label">model value is {{input.model}}</div>
+                        <small class="model-label">model value is {{input.model}}</small>
                     </div>
                     <number-input ng-model="input.model" ng-change="appCtrl.onChange(input.model)" options="input.options"></number-input>
                 </div>

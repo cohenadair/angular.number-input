@@ -83,6 +83,40 @@
                          }
                     }
                ],
+               [
+                    {
+                         label: "Prefix",
+                         options: {
+                              start: 100.00,
+                              min: 100.00,
+                              prefix: "$",
+                              decimalPlaces: 2,
+                              hideHint: true
+                         }
+                    },
+                    {
+                         label: "Postfix",
+                         options: {
+                              start: 0,
+                              min: 0,
+                              postfix: "lbs.",
+                              hint: "Enter your weight in pounds"
+                         }
+                    }
+               ],
+               [
+                    {
+                         label: "Prefix and postfix",
+                         options: {
+                              start: 0.00,
+                              min: 0.00,
+                              prefix: "*",
+                              postfix: "%",
+                              disableDecimal: true,
+                              hideHint: true
+                         }
+                    }
+               ]
           ];
      });
 })();

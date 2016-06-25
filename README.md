@@ -5,8 +5,8 @@
 A number-only input element directive for AngularJS.
 
 #### Requirements
-* [Bootstrap] (built with 3.3.5)
-* [AngularJS] (built with 1.4.1)
+* [Bootstrap]
+* [AngularJS]
 
 #### Installation
 1. Include `dist/number-input.min.js`

@@ -80,6 +80,6 @@ Licensed under [GNU GPL v2].
 Enjoy!
 
 [DEMO]:http://cohenadair.github.io/angular.number-input/
-[Boostrap]:http://getbootstrap.com/
+[Bootstrap]:http://getbootstrap.com/
 [AngularJS]:https://angularjs.org/
 [GNU GPL v2]:https://raw.githubusercontent.com/cohenadair/angular.number-input/master/LICENSE.txt

@@ -3,18 +3,107 @@
 	author: Cohen Adair
 	license: GNU GPL v2
 -->
-<div class="number-input-container">
+
+<style type="text/css">
+	.number-input-container {
+		height: 50px;
+	}
+
+	.number-input {
+		width: calc(100% - 68px);
+		box-shadow: none;
+	}
+
+	.number-input-no-postfix {
+		border-top-right-radius: 0px;
+		border-bottom-right-radius: 0px;
+	}
+
+	.number-input-fix {
+		height: 34px;
+		line-height: 34px;
+		padding-right: 5px;
+		text-align: middle;
+	}
+
+	.number-input-postfix {
+		padding-left: 5px;
+	}
+
+	.number-input-btns-container {
+		width: 68px;
+		height: 34px;
+	}
+
+	.number-input-btns-container button {
+		width: 34px;
+		height: 34px;
+		box-shadow: none;
+		line-height: 5px;
+	}
+
+	.number-input-btns-container button:focus {
+		outline: 0;
+		background-color: white;
+		border-color: #ccc;
+	}
+
+	.number-input-plus {
+		background: white;
+		border-top-right-radius: 0px;
+		border-bottom-right-radius: 0px;
+		border-right: none;
+	}
+
+	.number-input-plus-no-postfix {
+		border-top-left-radius: 0px;
+		border-bottom-left-radius: 0px;
+		border-left: none;
+	}
+
+	.number-input-plus-postfix {
+
+	}
+
+	.number-input-minus {
+		border-top-left-radius: 0px;
+		border-bottom-left-radius: 0px;
+		background: white;
+	}
+
+	.number-input-hint {
+		font-size: 0.8em;
+		color: #b3b3b3;
+	}
+</style>
+
+<div class="number-input-container"
+     id="number-input-container-id">
+
+	<label ng-if="numberInput.hasPrefix()"
+		   id="number-input-prefix-id" 
+		   class="number-input-fix number-input-prefix pull-left">{{numberInput.prefix}}</label>
+
 	<input type="text" 
 		   class="pull-left form-control number-input text-left"
 		   ng-model="model"
 		   ng-change="numberInput.onChange()"
 		   ng-keydown="numberInput.onKeyPress($event)"
-		   ng-blur="numberInput.onBlur()"></input>
+		   ng-blur="numberInput.onBlur()"
+		   ng-style="numberInput.getWidth()"
+		   ng-class="{&#39;number-input-no-postfix&#39;: !numberInput.hasPostfix()}"></input>
 
-	<div class="pull-right number-input-btns-container">
+	<label ng-if="numberInput.hasPostfix()"
+		   id="number-input-postfix-id"  
+	       class="number-input-fix number-input-postfix pull-left">{{numberInput.postfix}}</label>	   
+
+	<div class="pull-right number-input-btns-container"
+	     id="number-input-btns-container-id">
+
 		<button type="button" 
 				class="btn btn-default pull-left number-input-plus" 
-				ng-click="numberInput.inc()">
+				ng-click="numberInput.inc()"
+				ng-class="{&#39;number-input-plus-no-postfix&#39;: !numberInput.hasPostfix()}">
 			<strong>+</strong>
 		</button>
 
@@ -25,5 +114,6 @@
 		</button>
 	</div>
 
-	<small ng-show="!hideHint" class="number-input-hint">{{numberInput.hint}}</small>
+	<small ng-show="!hideHint" 
+	       class="number-input-hint pull-left">{{numberInput.hint}}</small>
 </div>

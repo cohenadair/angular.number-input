@@ -5,8 +5,11 @@
 		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.min.css">
 
 		<link rel="stylesheet" href="index.css">
+<<<<<<< HEAD
 
         <!-- <link rel="stylesheet" href="src/number-input.css"> -->
+=======
+>>>>>>> master
 
         <title>Angular | Number Input</title>
     </head>
@@ -18,11 +21,16 @@
             </h5>
 		</div>
 
+        <div class="row col-md-12 change-count">Custom ng-change function has been called <b>{{appCtrl.onChangeCount}}</b> times</div>
+
         <div class="row" ng-repeat="row in appCtrl.inputsConfig">
             <div ng-repeat="input in row">
                 <div class="col-md-6">
-                    <label>{{input.label}}:</label>
-                    <number-input ng-model="model" options="input.options"></number-input>
+                    <div class="label-container">
+                        <label>{{input.label}}:</label>
+                        <small class="model-label">model value is {{input.model}}</small>
+                    </div>
+                    <number-input ng-model="input.model" ng-change="appCtrl.onChange(input.model)" options="input.options"></number-input>
                 </div>
             </div>
         </div>

@@ -5,8 +5,8 @@
 A number-only input element directive for AngularJS.
 
 #### Requirements
-* [Bootstrap] (built with 3.3.5)
-* [AngularJS] (built with 1.4.1)
+* [Bootstrap]
+* [AngularJS]
 
 #### Installation
 1. Include `dist/number-input.min.js`
@@ -14,7 +14,17 @@ A number-only input element directive for AngularJS.
 
 #### Example
 ```HTML
-<number-input ng-model="model" max="24" min="0" step="1" start="10" hint="0 to 24 hours" hideHint="false" disableDecimal="true" decimalPlaces="0"></number-input>
+<number-input ng-model="model" 
+			  max="24" 
+			  min="0" 
+			  step="1" 
+			  start="10" 
+			  hint="0 to 24 hours" 
+			  hideHint="false" 
+			  disableDecimal="true" 
+			  decimalPlaces="0" 
+			  prefix="*" 
+			  postfix="%"></number-input>
 ```
 
 _or_
@@ -28,7 +38,9 @@ opts = {
   hint: "0 to 24 hours",
   hideHint: false,
   disableDecimal: true,
-  decimalPlaces: 0
+  decimalPlaces: 0,
+  prefix: "*",
+  postfix: "%"
 };
 ```
 ```HTML
@@ -47,6 +59,8 @@ opts = {
 | hideHint       | Boolean       | false                     | No       | Both             | Hides the hint
 | disableDecimal | Boolean       | false                     | No       | Both             | Disables decimals from being typed
 | decimalPlaces  | Number        | # of decimals in step     | No       | Both             | Number of decimal places shown
+| prefix         | String        | None                      | No       | Both             | An input prefix (i.e. $)
+| postfix        | String        | None				         | No       | Both             | An input postfix (i.e. %)
 | options        | Object        | Empty                     | No       | Both             | Options can be used instead of element attributes (attributes have priority)
 
 #### Testing Locally
@@ -66,6 +80,6 @@ Licensed under [GNU GPL v2].
 Enjoy!
 
 [DEMO]:http://cohenadair.github.io/angular.number-input/
-[Boostrap]:http://getbootstrap.com/
+[Bootstrap]:http://getbootstrap.com/
 [AngularJS]:https://angularjs.org/
 [GNU GPL v2]:https://raw.githubusercontent.com/cohenadair/angular.number-input/master/LICENSE.txt

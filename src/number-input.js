@@ -15,6 +15,7 @@
             
             scope: {
                 model: "=ngModel",
+                onChange: "&ngChange",
                 start: "=?start",
                 min: "=?min",
                 max: "=?max",
@@ -23,6 +24,8 @@
                 hideHint: "=?hideHint",
                 disableDecimal: "=?disableDecimal",
                 decimalPlaces: "=?decimalPlaces",
+                prefix: "@?prefix",
+                postfix: "@?postfix",
                 options: "=?options"
             },
 
@@ -36,6 +39,11 @@
                 var KEY_PERIOD = 190;
                 var KEY_DASH = 189;
                 var KEY_SPACE = 32;
+
+                // allow custom onChange functions
+                $scope.$watch("model", function() {
+                    $scope.onChange();
+                });
 
                 // increment model by step
                 this.inc = function() {
@@ -64,8 +72,9 @@
                 };
                 
                 this.onChange = function() {
-                    if (!isModelMaxLength())
+                    if (!isModelMaxLength()) {
                         return;
+                    }
 
                     // skip validation for certain keys
                     if (prevKey == KEY_PERIOD || 
@@ -75,10 +84,37 @@
                     validate();
                 };
 
+                // when the input goes out of focus
                 this.onBlur = function() {
                     validate();
                     if (!$scope.model)
                         $scope.model = $scope.start || 0;
+                };
+
+                this.hasPrefix = function() {
+                    return !this.prefix == "";
+                };
+
+                this.hasPostfix = function() {
+                    return !this.postfix == "";
+                };
+
+                this.getWidth = function() {
+                    var w = 0;
+
+                    if (this.hasPrefix() && this.hasPostfix()) {
+                        w = $("#number-input-prefix-id").outerWidth() + 
+                            $("#number-input-postfix-id").outerWidth()
+                    } else if (this.hasPrefix()) {
+                        w = $("#number-input-prefix-id").outerWidth()
+                    } else if (this.hasPostfix()) {
+                        w = $("#number-input-postfix-id").outerWidth()
+                    }
+
+                    return {
+                        width: $("#number-input-container-id").outerWidth() - 
+                               $("#number-input-btns-container-id").outerWidth() - w
+                    };
                 };
 
                 var isModelMaxLength = function() {
@@ -91,16 +127,24 @@
                     if (!(($scope.max >= 0 && $scope.min >= 0) || ($scope.max <= 0 && $scope.min <= 0)))
                         return true;
 
-                    var maxStrLen = $scope.max.toString().length;
-                    var minStrLen = $scope.min.toString().length;
-                    var len = (maxStrLen > minStrLen) ? maxStrLen : minStrLen;
+                    // make sure decimal places are accounted for in model length
+                    var decimalLen = $scope.decimalPlaces + ($scope.decimalPlaces > 0 ? 1 : 0);
+
+                    var maxStrLen = $scope.max.toString().length + decimalLen;
+                    var minStrLen = $scope.min.toString().length + decimalLen;
+                    var maxLen = (maxStrLen > minStrLen) ? maxStrLen : minStrLen;
 
                     var modelStr = $scope.model.toString();
+                    var numberOfDecimals = getDecimalPlaces(modelStr);
 
-                    if (modelStr.length > len)
-                        $scope.model = parseInt(modelStr.substring(0, modelStr.length - 1));
+                    // max string length
+                    // 1. actual string length
+                    // 2. max decimal places
+                    if (modelStr.length > maxLen || numberOfDecimals > $scope.decimalPlaces) {
+                        $scope.model = parseFloatForModel(modelStr.substring(0, modelStr.length - 1));
+                    }
 
-                    return (len == $scope.model.toString().length);
+                    return (maxLen == $scope.model.toString().length) || (numberOfDecimals > 0 && numberOfDecimals == $scope.decimalPlaces);
                 }
 
                 var getHint = function() {
@@ -164,11 +208,15 @@
                            (key == KEY_PERIOD && !$scope.disableDecimal && !($scope.decimalPlaces == 0));
                 };
 
+                var parseFloatForModel = function(string) {
+                    return +parseFloat(string).toFixed($scope.decimalPlaces);
+                };
+
                 // validates the current model
                 // if it is higher/lower than max/min, will reset to max/min
                 var validate = function() {
-                    $scope.model = +parseFloat($scope.model).toFixed($scope.decimalPlaces);
-
+                    $scope.model = parseFloatForModel($scope.model);
+                    
                     if (isMaxed()) $scope.model = $scope.max;
                     if (isMinnd()) $scope.model = $scope.min;
 
@@ -176,8 +224,7 @@
                 };
 
                 // returns the number of decimal places in $scope.step
-                var getDecimalPlaces = function() {
-                    var str = $scope.step.toString();
+                var getDecimalPlaces = function(str) {
                     if (str.indexOf(".") >= 0)
                         return str.split(".")[1].length;
                     return 0;
@@ -197,8 +244,10 @@
                 $scope.hint = this.hint = getHint();
                 $scope.hideHint = $scope.hideHint || $scope.options.hideHint || false;
                 $scope.disableDecimal = $scope.disableDecimal || $scope.options.disableDecimal || false;
-                $scope.decimalPlaces = $scope.decimalPlaces || $scope.options.decimalPlaces || getDecimalPlaces();
+                $scope.decimalPlaces = $scope.decimalPlaces || $scope.options.decimalPlaces || getDecimalPlaces($scope.step.toString());
                 $scope.model = $scope.start || $scope.model || 0;
+                $scope.prefix = this.prefix = $scope.prefix || $scope.options.prefix || "";
+                $scope.postfix = this.postfix = $scope.postfix || $scope.options.postfix || "";
             }],
 
             controllerAs: "numberInput"

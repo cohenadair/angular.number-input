@@ -12,6 +12,19 @@
 	margin-bottom: 15px;
 }
 
+.change-count {
+	margin-bottom: 25px;
+}
+
+.label-container {
+	width: 100%;
+}
+
+.model-label {
+	color: gray;
+	float: right;
+}
+
 .enjoy {
 	opacity: 0.5;
 	color: gray;

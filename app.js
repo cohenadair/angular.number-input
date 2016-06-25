@@ -2,6 +2,12 @@
      var app = angular.module("number-input-demo", ['number-input']);
     
      app.controller("AppController", function() {
+          this.onChangeCount = 0;
+
+          this.onChange = function(model) {
+               this.onChangeCount++;
+          };
+
           this.inputsConfig = [
                [
                     {
@@ -68,15 +74,49 @@
                          }
                     },
                     {
-                         label: "From -6 to -19",
+                         label: "From -6 to -25",
                          options: {
                               start: -19,
-                              min: -19,
+                              min: -25,
                               max: -6,
                               hideHint: true
                          }
                     }
                ],
+               [
+                    {
+                         label: "Prefix",
+                         options: {
+                              start: 100.00,
+                              min: 100.00,
+                              prefix: "$",
+                              decimalPlaces: 2,
+                              hideHint: true
+                         }
+                    },
+                    {
+                         label: "Postfix",
+                         options: {
+                              start: 0,
+                              min: 0,
+                              postfix: "lbs.",
+                              hint: "Enter your weight in pounds"
+                         }
+                    }
+               ],
+               [
+                    {
+                         label: "Prefix and postfix",
+                         options: {
+                              start: 0.00,
+                              min: 0.00,
+                              prefix: "*",
+                              postfix: "%",
+                              disableDecimal: true,
+                              hideHint: true
+                         }
+                    }
+               ]
           ];
      });
 })();
